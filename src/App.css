@@ -1,0 +1,24 @@
+
+#root {
+  min-height: 100vh;
+}
+
+header {
+  background-color: #1e3a5f;
+  color: white;
+  padding: 24px;
+  text-align: center;
+}
+
+header h1 {
+  margin: 0 0 10px;
+}
+
+header p {
+  margin: 0;
+}
+
+main {
+  padding: 24px;
+  text-align: center;
+}
