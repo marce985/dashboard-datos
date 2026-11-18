@@ -1,0 +1,32 @@
+[
+    {
+        "id": 1,
+        "mes": "Enero",
+        "ventas": 15000,
+        "pedidos": 120
+    }, 
+    {
+        "id": 2,
+        "mes": "Febrero",
+        "ventas": 18500,
+        "pedidos": 145
+    },
+    {
+        "id":3,
+        "mes": "Marzo",
+        "ventas": 22000,
+        "pedidos": 180
+    },
+    {
+        "id": 4,
+        "mes": "Abril",
+        "ventas": 17500,
+        "pedidos": 135
+    },
+    {
+        "id": 5,
+        "mes": "Mayo",
+        "ventas": 25000,
+        "pedidos": 200
+    }
+]

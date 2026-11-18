@@ -1,24 +1,122 @@
-
 #root {
+  width: 100%;
   min-height: 100vh;
+
 }
 
-header {
-  background-color: #1e3a5f;
+.aplicacion {
+  min-height: 100vh;
+  padding: 35px;
+  background-color: #f1f5f9;
+  font-family: Arial, sans-serif;
+
+}
+
+.encabezado {
+  text-align: center;
+  margin-bottom: 35px;
+
+}
+
+.encabezado h1 {
+  color: #1e293b;
+  font-size: 30px;
+  
+}
+
+.encabezado p {
+  color: #64748b;
+  font-size: 16px;
+
+}
+
+.metricas {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+  margin-bottom: 35px;
+
+}
+
+.tarjeta-metrica {
+  background-color: white;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+  border-left: 5px solid #2563eb;
+
+}
+
+.tarjeta-metrica h3 {
+  color: #64748b;
+  font-size: 16px;
+
+}
+
+.valor-metrica {
+  color: #1e293b;
+  font-size: 28px;
+  font-weight: bold;
+  margin: 15px 0;
+
+}
+
+.tarjeta-metrica span {
+  color: #94a3b8;
+  font-size: 13px;
+
+}
+
+.seccion-tabla {
+  background-color: white;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+
+}
+
+.tabla-contenedor h2 {
+  color: #1e293b;
+  margin-bottom: 20px;
+
+}
+
+table {
+  border-collapse: collapse;
+
+}
+
+th, td {
+  padding: 15px;
+  text-align: left;
+  border-bottom: 1px solid #e2e8f0;
+
+}
+
+th {
+  background-color: #2563eb;
   color: white;
-  padding: 24px;
-  text-align: center;
+
 }
 
-header h1 {
-  margin: 0 0 10px;
+tbody tr:hover {
+  background-color: #eff6ff;
+
 }
 
-header p {
-  margin: 0;
-}
+@media (max-width: 700px) {
+  .metricas {
+    grid-template-columns: 1fr;
 
-main {
-  padding: 24px;
-  text-align: center;
+  }
+
+  .aplicacion {
+    padding: 15px;
+
+  }
+
+  .seccion-tabla {
+    overflow-x: auto;
+
+  }
 }
