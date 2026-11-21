@@ -1,12 +1,17 @@
 import { useState, useEffect } from "react";
 
+
 import TarjetaMetrica from "./components/TarjetaMetrica";
 import TablaDatos from "./components/TablaDatos";
 import PanelAnalitico from "./components/PanelAnalitico";
 
+import GraficoTendencia from "./components/charts/GraficoTendencia";
+import GraficoComparativo from "./components/charts/GraficoComparativo";
+
 import {
   obtenerDatosVisualizacion,
-  procesarDatos
+  procesarDatos,
+  formatearParaGrafico
 } from "./services/dataService";
 
 import "./App.css";
@@ -21,6 +26,47 @@ function App() {
 
   //estado para controlar posibles errores
   const [error, setError] = useState(null);
+
+  // Crear el estado del filtro
+  const [mesSeleccionado, setMesSeleccionado] = useState("Todos");
+
+  
+    // Filtramos los registros según el mes seleccionado
+    const registrosFiltrados = datos
+      ? mesSeleccionado === "Todos"
+        ? datos.registros
+        : datos.registros.filter(
+          registro => registro.mes === mesSeleccionado
+
+        ) 
+      : [];
+
+    // Preparamos los datos filtrados para los gráficos
+    const datosVentas = formatearParaGrafico(
+      registrosFiltrados,
+      "ventas"
+    );
+
+    const datosPedidos = formatearParaGrafico(
+      registrosFiltrados,
+      "pedidos"
+    );
+
+  //Calculamos las métricas según los registros filtrados
+  const totalVentasFiltradas = registrosFiltrados.reduce(
+    (total, registro) => total + Number(registro.ventas),
+    0
+  );
+
+  const totalPedidosFiltrados = registrosFiltrados.reduce(
+    (total, registro) => total + Number(registro.pedidos),
+    0
+  );
+
+  const promedioVentasFiltradas = registrosFiltrados.length > 0
+    ? totalVentasFiltradas / registrosFiltrados.length
+    : 0;
+
 
   // obtener los datos cuando se carga la aplicación
   useEffect(() => {
@@ -68,38 +114,66 @@ function App() {
         <p>Visualización de ventas y pedidos mensuales</p>
 
       </header>
+
+      {/* Panel de filtros */}
+      <section className="panel-filtros">
+        <label htmlFor="filtro-mes">Seleccionar mes:</label>
+
+        <select
+        id="filtro-mes"
+        value={mesSeleccionado}
+        onChange={(evento) => setMesSeleccionado(evento.target.value)}
+      >
+        <option value="Todos">Todos los meses</option>
+
+        {datos.registros.map((registro) =>(
+          <option key={registro.id} value={registro.mes}>
+            {registro.mes}
+          </option>
+        ))}
+      </select>
+      </section>
+
       <section className="metricas">
 
         <TarjetaMetrica
           titulo="Total de ventas"
-          valor={`$${datos.totalVentas.toLocaleString("es-MX")}`}
-          descripcion="Ventas acumuladas"
+          valor={`$${totalVentasFiltradas.toLocaleString("es-MX")}`}
+          descripcion="Ventas del periodo seleccionado"
         />
 
         <TarjetaMetrica
           titulo="Total de pedidos"
-          valor={datos.totalPedidos.toLocaleString("es-MX")}
-          descripcion="Pedidos registrados"
+          valor={totalPedidosFiltrados.toLocaleString("es-MX")}
+          descripcion="Pedidos del periodo seleccionado"
         />
 
         <TarjetaMetrica
           titulo="Promedio de ventas"
-          valor={`$${datos.promedioVentas.toLocaleString("es-MX", {
+          valor={`$${promedioVentasFiltradas.toLocaleString("es-MX", {
             maximumFractionDigits: 2
           })}`}
 
-          descripcion="Promedio mensual"
+          descripcion="Promedio del periodo seleccionado"
         />
       
-
       </section>
 
       <section className="seccion-tabla">
-        <TablaDatos datos={datos.registros}/>
+        <TablaDatos datos={registrosFiltrados}/>
       </section>
 
       <section className="seccion-analitica">
         <PanelAnalitico />
+      </section>
+
+      {/* Sección de gráficos */}
+      <section className="seccion-graficos">
+
+        <GraficoTendencia datos={datosVentas} />
+
+        <GraficoComparativo datos={datosPedidos} />
+
       </section>
     
 

@@ -10,7 +10,7 @@ export async function obtenerDatosVisualizacion() {
     });
 }
 
-//función para procesar los dtos
+//función para procesar los datos
 export function procesarDatos(datos) {
 
     //filtramos los registros que contienen información válida
@@ -52,6 +52,47 @@ export function procesarDatos(datos) {
         promedioVentas,
         registros
     };
+
+}
+
+//Función para preparar los datos que utilizarán los gráficos
+export function formatearParaGrafico(datosCrudos, campo = "ventas")
+{
+
+    //Verificamos que existan datos para graficar
+    if (!Array.isArray(datosCrudos) || datosCrudos.length === 0) {
+        return{
+            labels:[],
+            values: []
+        };
+    }
+
+    //Filtramos los registros que contienen información válida
+    const registrosValidos = datosCrudos.filter((registro) => 
+        typeof registro.mes === "string" &&
+        registro.mes.trim() !== "" &&
+        registro[campo] !== null &&
+        registro[campo] !== "" &&
+        Number.isFinite(Number(registro[campo]))
+    );
+
+    //Extraemos las etiquetas (meses)
+    const labels = registrosValidos.map((registro) =>
+        registro.mes.trim()
+    );
+
+    //Extraemos los valores numéricos
+    const values = registrosValidos.map((registro) =>
+        Number(registro[campo])
+    );
+
+    //Devolvemos los datos preparados para los gráficos
+
+    return {
+        labels,
+        values
+    };
+
 
 }
 
